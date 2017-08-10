@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gwf.family.sys.user.dao.SysUserRepository">
+    <resultMap id="BaseResultMap" type="com.gwf.family.sys.user.entity.SysUser">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="password" jdbcType="INTEGER" property="password"/>
+            <result column="username" jdbcType="INTEGER" property="username"/>
+    </resultMap>
+
+    <cache type="com.gwf.family.business.core.util.RedisCache"/>
+</mapper>

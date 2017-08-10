@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "${table.tableName}")
-public class ${table.entityName} {
+public class ${table.entityName}  implements Serializable{
     public ${table.entityName}(){
     }
 

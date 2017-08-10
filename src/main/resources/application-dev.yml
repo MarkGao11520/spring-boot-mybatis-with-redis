@@ -53,6 +53,20 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
+logging:
+  level:
+      com.gwf.family: trace
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: "Bearer "
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+      register: "auth/register"
 
 #druid:
 #    url: jdbc:mysql://localhost:3306/gwf?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
@@ -65,15 +79,3 @@ pagehelper:
 
 
 
-
----
-spring:
-  profiles: test
-  # 数据库配置
-  datasource:
-    url: jdbc:h2:mem:test
-    username: root
-    password: 123456
-    driver-class-name: org.h2.Driver
-    schema: classpath:schema.sql
-    data: classpath:data.sql

@@ -1,5 +1,8 @@
 package com.gwf.family.common.model;
 
+import lombok.Data;
+import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by lcy on 17/7/5.
  */
+@Data
 public class DbColumnModel implements Serializable {
     private static final long serialVersionUID = -7808860348918160912L;
 
@@ -21,7 +25,6 @@ public class DbColumnModel implements Serializable {
     private String typeNameUpper; //类型名称
 
     private String remarks;
-
 
     private int precision, isNull, dataType, scale; //精度,是否为空,类型,小数的位数
 
@@ -151,72 +154,8 @@ public class DbColumnModel implements Serializable {
     }
 
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    public String getColName() {
-        return colName;
-    }
-
-    public void setColName(String colName) {
-        this.colName = colName;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public int getPrecision() {
-        return precision;
-    }
-
-    public void setPrecision(int precision) {
-        this.precision = precision;
-    }
-
-    public int getIsNull() {
-        return isNull;
-    }
-
-    public void setIsNull(int isNull) {
-        this.isNull = isNull;
-    }
-
-    public int getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(int dataType) {
-        this.dataType = dataType;
-    }
-
-    public int getScale() {
-        return scale;
-    }
-
-    public void setScale(int scale) {
-        this.scale = scale;
-    }
-
     public boolean getIsKey() {
         return isKey;
-    }
-
-    public void setKey(boolean key) {
-        isKey = key;
     }
 
     public String getTypeNameUpper() {
@@ -227,7 +166,6 @@ public class DbColumnModel implements Serializable {
             typeNameUpper = "TIMESTAMP";
         return typeNameUpper;
     }
-
 
     /**
      * 复制属性
@@ -251,7 +189,7 @@ public class DbColumnModel implements Serializable {
             this.setIsNull(isNull);
             this.setDataType(dataType);
             this.setScale(scale);
-            this.setRemarks(remarks);
+            this.setRemarks(StringUtils.isEmpty(remarks)?colName:remarks);
         } catch (SQLException e) {
             throw e;
         }

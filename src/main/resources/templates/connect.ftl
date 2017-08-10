@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>基本类页面</title>
+    <title>代码生成</title>
 </head>
 <body>
 ip:<input type="text" id="ip" /><br></br>
@@ -20,7 +20,7 @@ password:<input type="text" id="password" /><br></br>
     author:<input type="text" id="author" /><br></br>
 </div>
 <button onclick="generate()">生成</button>
-<script src="./jquery-1.7.2.min.js"></script>
-<script src="./connect.js"></script>
+<script src="./static/jquery-1.7.2.min.js"></script>
+<script src="./static/connect.js"></script>
 </body>
 </html>
