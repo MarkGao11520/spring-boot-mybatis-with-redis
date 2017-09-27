@@ -16,6 +16,9 @@ public final class JwtUserFactory {
     private JwtUserFactory() {
     }
 
+    /**
+     * 创建JwtUser工厂
+     */
     public static JwtUser create(SysUser user){
         return new JwtUser(
                 user.getId(),
@@ -25,6 +28,9 @@ public final class JwtUserFactory {
         );
     }
 
+    /**
+     * 讲User的List<Role>转换成JwtUser<GrantedAuthority>
+     */
     private static List<GrantedAuthority> map2GrantedAuthorities(List<SysRole> authorities){
         return authorities.stream()
                 .map(e -> role2SimpleGrantedAuthority(e))

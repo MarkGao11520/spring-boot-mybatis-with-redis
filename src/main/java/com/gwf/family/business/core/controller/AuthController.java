@@ -1,5 +1,7 @@
 package com.gwf.family.business.core.controller;
 
+import com.gwf.family.business.core.results.Result;
+import com.gwf.family.business.core.results.ResultGenerator;
 import com.gwf.family.business.core.service.AuthService;
 import com.gwf.family.sys.user.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,9 @@ public class AuthController {
     }
 
     @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
-    public SysUser register(SysUser addedUser){
-        return authService.register(addedUser);
+    public Result register(SysUser addedUser){
+        authService.register(addedUser);
+        return ResultGenerator.genSuccessResult();
     }
 }
 

@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
- * Created by gaowenfeng on 2017/8/9.
+ * Created by gwf on 2017/8/9.
+ * security需要的UserDetails实现类
  */
 @Data
 public class JwtUser implements UserDetails {
@@ -16,8 +17,12 @@ public class JwtUser implements UserDetails {
     private final long id;
     private final String username;
     private final String password;
+    /** 权限类.*/
     private final Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * 在createJwtFactory里注入
+     */
     public JwtUser(long id,
                    String username,
                    String password,

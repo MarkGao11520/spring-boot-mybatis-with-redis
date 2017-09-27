@@ -29,10 +29,10 @@ public class JwtUserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        SysUser sysUser = userRepository.findByUserName(s);
+        SysUser sysUser = userRepository.findByUserName(s);  //调用持久层从数据库获取用户信息
         if (sysUser == null)
             throw new UsernameNotFoundException("用户名不存在");
-        List<SysRole> roles = sysRoleRepository.findRolesByUserId(sysUser.getId());
+        List<SysRole> roles = sysRoleRepository.findRolesByUserId(sysUser.getId());  //根据用户id或者用户权限列表
         if (CollectionUtils.isEmpty(roles))
             roles = Collections.emptyList();
         sysUser.setRoles(roles);

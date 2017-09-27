@@ -29,9 +29,9 @@ public class SysUser  implements Serializable{
     /** id */
     @Id
     private Integer id;
-    /** password */
+    /** 密码 */
     private String password;
-    /** username */
+    /** 用户名 */
     private String username;
 
     /**权限列表**/

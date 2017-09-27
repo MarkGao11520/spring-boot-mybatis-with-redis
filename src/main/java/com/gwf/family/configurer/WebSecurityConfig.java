@@ -1,5 +1,6 @@
 package com.gwf.family.configurer;
 
+import com.gwf.family.business.core.components.JwtBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Created by gaowenfeng on 2017/8/9.
  */
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity   //开启WebSecurity支持
+@EnableGlobalMethodSecurity(prePostEnabled = true) //开启prePostEnabled注解支持
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -32,25 +33,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * 密码加密的bean，使用BCrypt
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 前置过滤器
+     * @return
+     */
     @Bean
     JwtAuthenticationTokenFilter authenticationTokenFilterBean(){
         return new JwtAuthenticationTokenFilter();
+    }
+
+    @Bean
+    JwtBean jwtBean(){
+        return new JwtBean();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .disable()  //禁用csrf保护
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  //禁用session
                 .and()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .authorizeRequests()  //所有请求都要验证
+                .antMatchers("/auth/**").permitAll()  //登录注册等请求过滤
+                .antMatchers("/code/**").permitAll()  //登录注册等请求过滤
                 .antMatchers(
                         "/",
                         "/*.html",
@@ -58,15 +73,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.js",
                         "/**/*.css"
-                ).permitAll()
+                ).permitAll()  //静态资源过滤
                 .anyRequest().fullyAuthenticated()
                 .and()
-                .exceptionHandling()
+                .exceptionHandling()  //验证不通过的配置
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 ;
-        http
+        http   //添加前置过滤器
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        http
+        http   //禁用header缓存
                 .headers().cacheControl();
     }
 }

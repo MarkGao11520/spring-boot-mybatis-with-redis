@@ -1,5 +1,7 @@
 package com.gwf.family.business.core.service;
 
+import com.gwf.family.business.core.exception.ServiceException;
+import com.gwf.family.business.core.results.ResultEnum;
 import com.gwf.family.common.util.JwtUtil;
 import com.gwf.family.sys.user.dao.SysUserRepository;
 import com.gwf.family.sys.user.entity.SysUser;
@@ -11,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,22 +26,30 @@ public class AuthServiceImpl implements AuthService{
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
     private SysUserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserDetailsService userDetailsService,
-                           SysUserRepository userRepository) {
+                           SysUserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Override
-    public SysUser register(SysUser userToAdd) {
-        return null;
+    public void register(SysUser userToAdd) {
+        if(userRepository.findByUserName(userToAdd.getUsername())!=null)
+            throw new ServiceException(ResultEnum.USER_EXISTS);
+        userToAdd.setPassword(passwordEncoder.encode(userToAdd.getPassword()));
+        int result = userRepository.insertSelective(userToAdd);
+        if(result==0)
+            throw new ServiceException(ResultEnum.SAVE_ERROR);
     }
 
     @Override
@@ -47,7 +59,7 @@ public class AuthServiceImpl implements AuthService{
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String token = JwtUtil.setClaim(username);
+        final String token = JwtUtil.generateToken(userDetails);
         return token;
     }
 

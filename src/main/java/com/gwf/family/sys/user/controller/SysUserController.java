@@ -1,5 +1,7 @@
 package com.gwf.family.sys.user.controller;
+import com.gwf.family.business.core.exception.ServiceException;
 import com.gwf.family.business.core.results.Result;
+import com.gwf.family.business.core.results.ResultEnum;
 import com.gwf.family.business.core.results.ResultGenerator;
 import com.gwf.family.sys.user.entity.SysUser;
 import com.gwf.family.sys.user.service.SysUserService;
@@ -8,10 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,32 +24,33 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
-    @PostMapping("/add")
+    @PostMapping
     public Result add(SysUser sysUser) {
         sysUserService.save(sysUser);
         return ResultGenerator.genSuccessResult();
     }
-
-    @PostMapping("/delete")
-    public Result delete(Integer id) {
+    @DeleteMapping("/{id:\\d+}")
+    public Result delete(@PathVariable Integer id) {
         sysUserService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
-    @PostMapping("/update")
+    @PutMapping("/{id:\\d+}")
     public Result update(SysUser sysUser) {
         sysUserService.update(sysUser);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostAuthorize("returnObject.data.username == principal.username or hasRole('ROLE_ADMIN')")
-    @PostMapping("/detail")
-    public Result detail(Integer id) {
+    @GetMapping("/{id:\\d+}")
+    public Result detail(@PathVariable Integer id) {
         SysUser sysUser = sysUserService.findById(id);
+        if(sysUser==null)
+            throw new ServiceException(ResultEnum.USER_NOT_EXISTS);
         return ResultGenerator.genSuccessResult(sysUser);
     }
 
-    @PostMapping("/list")
+    @GetMapping
     public Result list(@RequestParam(name = "page",defaultValue = "1") Integer page,
                        @RequestParam(name = "size",defaultValue = "10") Integer size) {
         PageHelper.startPage(page, size);
