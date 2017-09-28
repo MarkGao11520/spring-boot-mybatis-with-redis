@@ -26,21 +26,21 @@ public class AuthController {
     private AuthService authService;
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestParam("username")String username,
+    public Result createAuthenticationToken(@RequestParam("username")String username,
                                                        @RequestParam("password")String password){
         final String token = authService.login(username, password);
-        return ResponseEntity.ok(token);
+        return ResultGenerator.genSuccessResult(token);
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(
+    public Result refreshAndGetAuthenticationToken(
             HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         String refreshedToken = authService.refresh(token);
         if(refreshedToken == null) {
-            return ResponseEntity.badRequest().body(null);
+            return ResultGenerator.genSuccessResult();
         } else {
-            return ResponseEntity.ok(refreshedToken);
+            return ResultGenerator.genSuccessResult(refreshedToken);
         }
     }
 

@@ -43,6 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain)
             throws ServletException, IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE,PUT");
+        response.setHeader("Access-Control-Allow-Headers","Authorization,Origin,X-Requested-With,X-File-Name,Content-Type, Accept");
         String authHeader = request.getHeader(this.tokenHeader);  // 取得header
         if (authHeader != null && authHeader.startsWith(tokenHead)) {  //判断header头
             final String authToken = authHeader.substring(tokenHead.length()); // The part after "Bearer "

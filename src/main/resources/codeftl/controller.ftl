@@ -39,8 +39,7 @@ public class ${table.entityName}Controller {
 
     @GetMapping("/{id:\\d+}")
     public Result detail(@PathVariable Integer id) {
-        ${table.entityName} ${table.entityName?uncap_first} = ${table.entityName?uncap_first}Service.findById(id);
-        return ResultGenerator.genSuccessResult(${table.entityName?uncap_first});
+        return ResultGenerator.genSuccessResult(${table.entityName?uncap_first}Service.findById(id));
     }
 
     @GetMapping
