@@ -1,5 +1,8 @@
 package com.gwf.family.business.code.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -7,23 +10,12 @@ import java.io.Serializable;
  *
  * code table
  */
+@Data
+@NoArgsConstructor
 public class CodeTable implements Serializable {
 
 
     private static final long serialVersionUID = 1154645476624841358L;
 
-
-
-    public CodeTable() {
-    }
-
     private String tableName;
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
 }

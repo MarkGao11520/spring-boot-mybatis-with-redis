@@ -64,16 +64,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  //禁用session
                 .and()
                 .authorizeRequests()  //所有请求都要验证
+                .antMatchers("/static/**").permitAll() //静态资源过滤
+                .antMatchers("/webjars/**").permitAll()  //swagger过滤
+                .antMatchers("/v2/**").permitAll()  //swagger过滤
+                .antMatchers("/swagger-resources/**").permitAll()  //swagger过滤
+                .antMatchers("/swagger-resources/**").permitAll()  //swagger过滤
                 .antMatchers("/auth/**").permitAll()  //登录注册等请求过滤
-                .antMatchers("/code/**").permitAll()  //登录注册等请求过滤
-                .antMatchers(
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.js",
-                        "/**/*.css"
-                ).permitAll()  //静态资源过滤
+                .antMatchers("/code/**").permitAll()  //下载代码请求过滤
+                .antMatchers("/favicon.ico","/swagger-ui.html","/").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .exceptionHandling()  //验证不通过的配置

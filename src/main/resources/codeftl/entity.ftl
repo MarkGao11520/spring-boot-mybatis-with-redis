@@ -30,6 +30,7 @@ public class ${table.entityName}  implements Serializable{
     <#if item.isKey>
     @Id
     </#if>
+    @ApiModelProperty(value = "${item.remarks}")
     private ${item.javaType} ${item.columnNameLowerCamel};
     </#list>
 

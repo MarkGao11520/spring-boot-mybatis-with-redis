@@ -95,6 +95,14 @@ public class CodeServiceImpl implements CodeService {
                 tableModel = new DbTableModel();
                 models = new ArrayList<DbColumnModel>();
                 tableModel.setTableName(table.toLowerCase());
+                rs = (ResultSet) dbmd.getTables(null, codeSchema.getDbName(), table,  new String[] { "TABLE" });
+                while (rs.next()) {
+                    if(rs.getString("TABLE_NAME").equals(table)){
+                        String remarks = rs.getString("REMARKS");
+                     //   String remarks = rs.getString("REMARKS");
+                        tableModel.setRemarks(remarks);
+                    }
+                }
                 //column
                 rs = (ResultSet) dbmd.getColumns(null, codeSchema.getDbName(), table.toLowerCase(), null);
                 dbmd.getPrimaryKeys(null, null, tables[0].toLowerCase());

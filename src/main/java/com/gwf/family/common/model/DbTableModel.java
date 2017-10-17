@@ -1,5 +1,7 @@
 package com.gwf.family.common.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Created by lcy on 17/7/5.
  * 表模型
  */
+@Data
 public class DbTableModel implements Serializable{
     private static final long serialVersionUID = 1803273420552584045L;
 
@@ -14,17 +17,11 @@ public class DbTableModel implements Serializable{
     }
     private List<DbColumnModel> columnModels;
 
-    public List<DbColumnModel> getColumnModels() {
-        return columnModels;
-    }
-
-    public void setColumnModels(List<DbColumnModel> columnModels) {
-        this.columnModels = columnModels;
-    }
-
     private String tableName; //表名 全小写
 
     private String entityName;
+
+    private String remarks;
 
     private String mappingPath;
 
@@ -48,22 +45,11 @@ public class DbTableModel implements Serializable{
         return simpleEntity.toString();
     }
 
+
     public String getMappingPath() {
         return tableNameConvertMappingPath(tableName);
     }
 
-
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
 
     private static String tableNameConvertMappingPath(String tableName) {
         tableName = tableName.toLowerCase();//兼容使用大写的表名

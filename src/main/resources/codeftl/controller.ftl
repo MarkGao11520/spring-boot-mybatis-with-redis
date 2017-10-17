@@ -20,31 +20,37 @@ public class ${table.entityName}Controller {
     private ${table.entityName}Service ${table.entityName?uncap_first}Service;
 
     @PostMapping
+    @ApiOperation("添加${table.entityName}")
     public Result add(${table.entityName} ${table.entityName?uncap_first}) {
         ${table.entityName?uncap_first}Service.save(${table.entityName?uncap_first});
         return ResultGenerator.genSuccessResult();
     }
 
     @DeleteMapping("/{id:\\d+}")
-    public Result delete(@PathVariable  Integer id) {
+    @ApiOperation("删除${table.entityName}")
+    public Result delete(@ApiParam(value = "${table.remarks}id") @PathVariable  Integer id) {
         ${table.entityName?uncap_first}Service.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
     @PutMapping("/{id:\\d+}")
+    @ApiOperation("修改${table.entityName}")
     public Result update(${table.entityName} ${table.entityName?uncap_first}) {
         ${table.entityName?uncap_first}Service.update(${table.entityName?uncap_first});
         return ResultGenerator.genSuccessResult();
     }
 
     @GetMapping("/{id:\\d+}")
-    public Result detail(@PathVariable Integer id) {
-        return ResultGenerator.genSuccessResult(${table.entityName?uncap_first}Service.findById(id));
+    @ApiOperation("${table.entityName}根据id查询详情")
+    public Result detail(@ApiParam(value = "${table.remarks}id")@PathVariable Integer id) {
+        ${table.entityName} ${table.entityName?uncap_first} = ${table.entityName?uncap_first}Service.findById(id);
+        return ResultGenerator.genSuccessResult(${table.entityName?uncap_first});
     }
 
     @GetMapping
-    public Result list(@RequestParam(name = "page",defaultValue = "1") Integer page,
-                       @RequestParam(name = "size",defaultValue = "10") Integer size) {
+    @ApiOperation("${table.entityName}分页查询列表")
+    public Result list(@ApiParam(value = "页数")@RequestParam(name = "page",defaultValue = "1") Integer page,
+                       @ApiParam(value = "每页行数")@RequestParam(name = "size",defaultValue = "10") Integer size) {
         PageHelper.startPage(page, size);
         List<${table.entityName}> list = ${table.entityName?uncap_first}Service.findAll();
         PageInfo pageInfo = new PageInfo(list);
