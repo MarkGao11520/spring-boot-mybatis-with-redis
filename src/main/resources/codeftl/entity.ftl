@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import io.swagger.annotations.*;
 
 /**
 * Created with ${author} on ${.now}.

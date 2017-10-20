@@ -79,7 +79,7 @@ public class DbColumnModel implements Serializable {
                 javaType = "Double";
                 break;
             case "decimal":
-                javaType = "Decimal";
+                javaType = "BigDecimal";
                 break;
             case "id":
                 javaType = "Long";
@@ -98,6 +98,18 @@ public class DbColumnModel implements Serializable {
                 break;
             case "timestamp":
                 javaType = "Date";
+                break;
+            case "smallint unsigned":
+                javaType = "short";
+                break;
+            case "tinyint unsigned":
+                javaType = "Byte";
+                break;
+            case "enum":
+                javaType = "String";
+                break;
+            case "set":
+                javaType = "String";
                 break;
         }
         return javaType;
@@ -160,10 +172,32 @@ public class DbColumnModel implements Serializable {
 
     public String getTypeNameUpper() {
         typeNameUpper = typeName.toUpperCase();
-        if(typeNameUpper.equals("INT"))
-            typeNameUpper = "INTEGER";
-        if(typeNameUpper.equals("DATETIME"))
-            typeNameUpper = "TIMESTAMP";
+        switch (typeNameUpper){
+            case "INT":
+                typeNameUpper = "INTEGER";
+                break;
+            case "DATETIME":
+                typeNameUpper = "TIMESTAMP";
+                break;
+            case "SMALLINT UNSIGNED":
+                typeNameUpper = "SMALLINT";
+                break;
+            case "TEXT":
+                typeNameUpper = "LONGVARCHAR";
+                break;
+            case "YEAR":
+                typeNameUpper = "DATE";
+                break;
+            case "TINYINT UNSIGNED":
+                typeNameUpper = "TINYINT";
+                break;
+            case "ENUM":
+                typeNameUpper = "CHAR";
+                break;
+            case "SET":
+                typeNameUpper = "CHAR";
+                break;
+        }
         return typeNameUpper;
     }
 
