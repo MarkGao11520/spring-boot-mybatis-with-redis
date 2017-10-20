@@ -1,6 +1,8 @@
 package ${basePackage}.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,15 +18,9 @@ import io.swagger.annotations.*;
 @Entity
 @Data
 @Table(name = "${table.tableName}")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ${table.entityName}  implements Serializable{
-    public ${table.entityName}(){
-    }
-
-    public ${table.entityName}(<#list table.columnModels as item><#if item_index!=0>,</#if>${item.javaType} ${item.columnNameLowerCamel}</#list>){
-    <#list table.columnModels as item>
-        this.${item.columnNameLowerCamel}=${item.columnNameLowerCamel};
-    </#list>
-    }
 
     <#list table.columnModels as item>
     /** ${item.remarks} */
